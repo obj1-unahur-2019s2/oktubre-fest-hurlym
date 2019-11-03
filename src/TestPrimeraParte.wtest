@@ -1,0 +1,62 @@
+import Jarra.*
+import Persona.*
+import Belga.*
+import Checo.*
+import Aleman.*
+import Marca.*
+import MarcaRubia.*
+import MarcaNegra.*
+import MarcaRoja.*
+
+
+describe "Test Primera Parte"{
+	var miJarra = new Jarra()
+	var belga = new Belga()
+	var hofbrau = new MarcaRoja()
+	var checo = new Checo()
+	var aleman = new Aleman()
+	
+	
+	
+	test "Cerveza Roja de 1/2 litro" {
+		
+		miJarra.capacidad(0.5)
+		miJarra.marca(hofbrau)
+		assert.equals(0.045, miJarra.contenidoAlcohol())
+		belga.beber(miJarra)
+		belga.beber(miJarra)
+		assert.equals(0.09, belga.cantidadAlcholIngerido())
+		belga.nivelAguante(6)
+		belga.peso(70)
+		//LA PERSONA PESA 70 KG * EL ALCOHOL INGERIDO 0.08 = 5.6 AL TENER UN AGUANTE DE 6 NO DEBE ESTAR EBRIA
+		assert.that(belga.estaEbria())
+		//SE TOMA OTRA CERVEZA Y SE PONE EBRIA
+		belga.beber(miJarra)
+	  	assert.that(belga.estaEbria())
+	  	 
+	  
+	}
+	
+	test "Les gusta la cerveza Roja de 1/2 litro" {
+		
+		//ESTA CERVEZA NO LE GUSTA A LOS BELGAS PORQUE EL CONTENIDO DE LUPULO ES MENOR A 4
+		assert.that(not belga.meGusta(hofbrau))
+		//MODIFICO EL CONTENIDO DE LUPULO DE LA CERVEZA PARA QUE LE GUSTE A LOS BELGAS
+		hofbrau.cantLupulo(5)
+		assert.that(belga.meGusta(hofbrau))
+		
+		//YA QUE LA CERVEZA TIENE UNA GRADUACION ALCOHOLICA DE 0.08 NO LE GUSTARA A LOS CHECOS
+		//assert.that(not checo.meGusta(hofbrau))
+		
+		//SUBO LA GRADUACION ALCOHOLICA DE LA CERVEZA A 0.09 PARA QUE SEA DEL AGRADO DE LOS CHECOS
+		assert.that(checo.meGusta(hofbrau))
+	  	//A LOS ALEMANES LES GUSTAN TODAS LAS CERVEZAS
+	  	assert.that(aleman.meGusta(hofbrau))
+	  
+	}
+	
+	
+
+	
+	
+}
